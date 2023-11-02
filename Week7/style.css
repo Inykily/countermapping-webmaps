@@ -4,6 +4,7 @@ body {margin: 0;padding: 0;}
   top: 0;
   bottom: 0;
   width: 100%; }
+
 .map-overlay {
   font-family: 'Montserrat', sans-serif;
   position: fixed;
@@ -28,4 +29,10 @@ margin: 0 0 10px;
 .mapboxgl-popup {
 max-width: 400px;
 font: 12px/20px 'Montserrat Neue',sans-serif;
+}
+
+.check-container {
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
 }
