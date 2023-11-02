@@ -1,17 +1,17 @@
 <!-- This is to indicate we have an HTML document -->
 <!DOCTYPE html>
 
-<!-- All our code goes within this html tag-->
+<!-- All our code goes within this tag-->
 <html>
 
-<!-- All the metadata and packages/tools we'll use go in the head.>
+<!-- All the metadata and packages/tools we'll use go in here-->
 <head>
 
 <!-- The charset attribute specifies the character encoding for the HTML document.-->
 <meta charset="utf-8" />
 
 <!-- The title of your page, which will appear in the browser tab -->
-<title>NYC Housing Flood Risk</title>  
+<title>NYC Housing Flood Risk</title>
 
 <!-- The size of the viewport vs the rendered page -->
 <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
@@ -22,7 +22,6 @@
 <!-- Alongside this, we are going to bring in the Mapbox GL stylesheet -->
 <link href='https://api.mapbox.com/mapbox-gl-js/v2.9.2/mapbox-gl.css' rel='stylesheet' />
 
-<!-- You'll be creating this file in a bit -->
 <link href='style.css' rel='stylesheet' />
 
 <!-- This allows us to bring in new fonts -->
@@ -33,30 +32,27 @@
 <body>
 
 <!-- The "div" tag delineates a "division" or section of the HTML page.-->
-  <div id="map">
+  <div id="map"></div>
+  <div class="map-overlay">
+  <div class="map-overlay-inner">
+  <h2>Public and Affordable Housing Flood Risk</h2>
+  <p>In the fall of 2012, New York City was hit with hurricane that left tens of thousands of public housing residents <a href = "https://www1.nyc.gov/site/nycha/about/press/pr-2012/nycha-has-restored-power-to-buildings-affected-by-hurricane-sandy.page">without power for days or even weeks]</a>. New York City Housing Authority public housing developments were affected. <a href="https://furmancenter.org/files/publications/SandysEffectsOnHousingInNYC.pdf">24,000 government-subsidized apartments and 40,000 rent-stabilized apartments were also affected</a>.</p>
+
+  <p>With rising sea levels from climate change and the <a href="https://www.nytimes.com/2017/04/18/magazine/when-rising-seas-transform-risk-into-certainty.html">promise</a> of more flooding, which areas and <i>who</i> will likely be most affected? How is affordable housing construction responding to this? </p>
   </div>
 
-
-    <div class="map-overlay top">
-    <div class="map-overlay-inner">
-    <h2>Public and Affordable Housing Flood Risk</h2>
-    THE HOUSING DEVELOPMENT IN NYC BY NYCHA (IN YELLOW) VS. HURRICANE SALLY FLOODING ZONE (IN WHITE)<br>
-    
-
-
-    </div>
-    </div>
-
-<script>
-// You'll be inserting your JS code to initialize your map here
-mapboxgl.accessToken = 'pk.eyJ1IjoiaW55a2lseSIsImEiOiJjbGx6amRrYmsyZnVsM2VsaTFzODl3cDhqIn0.Z__VDdLEm_QIrbjJkacMDQ'
-
-const map = new mapboxgl.Map({
-  container: 'map', // container id
-  style: 'mapbox://styles/inykily/clnijhu4s082001nscrnu55vm' // replace this with your style URL,
-  ,center: [-73.935242, 40.730610], // The convention for coordinates is  typically [long, lat]
-  minZoom: 12 // The zoom level can be any decimal number
-});
+  </div>
+  <script>
+  // You'll be inserting your JS code to initialize your map here
+  mapboxgl.accessToken = 'pk.eyJ1IjoiaW55a2lseSIsImEiOiJjbGx6amRrYmsyZnVsM2VsaTFzODl3cDhqIn0.Z__VDdLEm_QIrbjJkacMDQ';
+  const map = new mapboxgl.Map({
+    container: 'map', // container id
+    style: 'mapbox://styles/inykily/clnijhu4s082001nscrnu55vm', // replace this with your style URL
+    center: [-73.935242, 40.730610], // The convention for coordinates is  typically [long, lat]
+    zoom: 13,
+    // maxZoom: 22,
+    // minZoom: 12
+  });
 
 map.on('load',function(){
   // Give your layer's source a nickname you'll remember easily. I've called my source `sandy_layer`.
@@ -68,7 +64,32 @@ map.on('load',function(){
     'type':'vector',
     'url': 'mapbox://inykily.dip9cxfq'
   });
+
+
+//////////
+    map.addSource('censusLayer',{
+    'type':'vector',
+    'url': 'mapbox://iamwfx.6nowkujs'
+  });
+
   // add a new layer with your polygons
+
+  map.addLayer({
+    'id':'povertyLevel',
+    'type':'fill',
+    'source':'censusLayer',
+    'source-layer':'nyc_blck_grp_2020_wcensus_dro-4db43i',
+    'paint':{
+      'fill-color':'green',
+      'fill-opacity': 0.5
+      }
+    });
+    map.addLayer({
+      'id':'floodZones',
+  })
+//////////
+
+
   map.addLayer({
     'id':'flood_zones',
     'type':'fill',
@@ -87,13 +108,15 @@ map.on('load',function(){
     'paint':{
       'fill-color':'#eeff00',
       'fill-opacity': 0.5
-    }
-  })
-});
+      }
+    });
+  });
 
-// Within a script, you comment using two backslashes.
-</script>
+////////////
 
+
+  // Within a script, you comment using two backslashes.
+  </script>
 </body>
 
 </html>
