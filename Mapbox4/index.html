@@ -14,7 +14,7 @@
 <title>NYC Housing Flood Risk</title>
 
 <!-- The size of the viewport vs the rendered page -->
-<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
 
 <!-- We are going to call the Mapbox GL javascript library, which will allow us to use its functionality -->
 <script src='https://api.mapbox.com/mapbox-gl-js/v2.9.2/mapbox-gl.js'></script>
@@ -109,6 +109,8 @@
               In 2080 (1 in 500 year)
               <input id='f80_500' type='checkbox' name='viz-toggle' checked='checked'>
           </label>
+          <br>
+          <button id='flyhigh'>Fly High!</button>
 
         <!-- <label class='check-container'>
             NYCHA Buildings
@@ -119,22 +121,42 @@
   </div>
 
 
-  //////////
-
-
 <script>
   // You'll be inserting your JS code to initialize your map here
   mapboxgl.accessToken = 'pk.eyJ1IjoiaW55a2lseSIsImEiOiJjbGx6amRrYmsyZnVsM2VsaTFzODl3cDhqIn0.Z__VDdLEm_QIrbjJkacMDQ';
   const map = new mapboxgl.Map({
     container: 'map', // container id
     style: 'mapbox://styles/inykily/clnijhu4s082001nscrnu55vm', // replace this with your style URL
-    center: [-73.935242, 40.730610], // The convention for coordinates is  typically [long, lat]
-    zoom: 13,// The zoom level can be any decimal number
-    // maxZoom: 22,
-    // minZoom: 12
-  });
+        center: [-73.98, 40.725], // NYC coordinates (longitude, latitude)
+        pitch:25,
+        bearing:45,
+        minZoom:14,
+    });
 
-    map.on('load',function(){
+    map.on('load', function () {
+
+
+//////////
+      document.getElementById('flyhigh').addEventListener('click', function() {
+        const neighborhoodCoordinates = [-73.947, 40.790]; // Example coordinates
+        const zoomLevel = 15;
+        const pitch = 45;
+        const bearing = 65;
+
+      map.flyTo({
+        center: neighborhoodCoordinates,
+        zoom: zoomLevel,
+        pitch: pitch,
+        bearing: bearing,
+        speed: .75,
+        curve: 1,
+
+      });
+
+    });
+//////////
+
+
       // Give your layer's source a nickname you'll remember easily.
       map.addSource('sandyLayer',{
         'type':'vector',
